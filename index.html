@@ -1,0 +1,46 @@
+<html>
+<style>
+td {
+  border: 1px solid black;
+  min-width: 45px;
+  line-height: 20px;
+}
+td.active {
+  background-color: sandybrown;
+}
+div {
+  box-sizing: border-box;
+}
+.item-list__item__col {
+    width: 33%;
+    display: inline-block;
+}
+.current-year {
+  display: inline;
+  margin-left: 30px;
+}
+</style>
+<body>
+	<label for="url">Enter an https:// URL:</label>
+
+	<input type="url" name="url" id="url"
+	       placeholder="https://example.com"
+	       pattern="https://.*" size="30"
+	       required>
+	<button id="b">Change Image</button>
+	<br>
+
+	<img src="" id="image">
+</body>
+<script>
+	document.getElementById("b").addEventListener("click", e => {
+		const imageInput = document.getElementById("url");
+		if (imageInput.value) {
+			const image = document.getElementById("image");
+			image.src = imageInput.value;
+		}
+	});
+</script>
+</html>
+
+
