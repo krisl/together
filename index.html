@@ -20,7 +20,12 @@ div {
   margin-left: 30px;
 }
 </style>
+<script>
+	var TogetherJSConfig_cloneClicks = true
+</script>
+<script src="https://togetherjs.com/togetherjs-min.js"></script>
 <body>
+	<button onclick="TogetherJS(this); return false;">Start TogetherJS</button>
 	<label for="url">Enter an https:// URL:</label>
 
 	<input type="url" name="url" id="url"
