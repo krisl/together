@@ -10,6 +10,7 @@
 	var TogetherJSConfig_suppressJoinConfirmation = true
 </script>
 <script src="https://togetherjs.com/togetherjs-min.js"></script>
+<script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
 <body>
 	<input type="url" name="url" id="url"
 	       placeholder="https://site.com/path/to/image.jpg"
@@ -28,6 +29,26 @@
 			image.src = imageInput.value;
 		}
 	});
+
+
+	// initialise dexie
+	var db = new Dexie("images");
+	db.version(1).stores({
+		images: 'name,url'
+	});
+
+	// db.images.put({name: 'Банковские операции', url:'http://bidstrup.ru/images/comicses/0908.gif'})
+	// db.images.put({name: 'Плата за мир', url:'http://bidstrup.ru/images/comicses/0920.gif'})
+	// db.images.put({name: 'car', url:'https://i.pinimg.com/474x/ed/35/fb/ed35fbefa01c7ea3015a0ef7c9201eb8--adult-coloring-coloring-books.jpg'})
+
+	function load (name) {
+		db.images.get(name).then(
+			image => {
+				const imageInput = document.getElementById("url");
+				imageInput.value = image.url;
+			}
+		)
+	}
 </script>
 </html>
 
