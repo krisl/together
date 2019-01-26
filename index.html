@@ -57,6 +57,19 @@
 	function each () {
 		db.images.each(row => console.log(row.name, row.url))
 	}
+
+	function add (name, url) {
+		db.images.get(name).then(
+			image => {
+				if (image) {
+					console.log('image already exists [' + name + ']')
+					return
+				}
+
+				db.images.put({name, url})
+			}
+		)
+	}
 </script>
 </html>
 
