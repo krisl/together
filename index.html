@@ -44,6 +44,10 @@
 	function load (name) {
 		db.images.get(name).then(
 			image => {
+				if (!image) {
+					console.log('Not found [' + name + ']')
+					return
+				}
 				const imageInput = document.getElementById("url");
 				imageInput.value = image.url;
 			}
