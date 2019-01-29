@@ -109,6 +109,12 @@
 		)
 	}
 
+	function imageClicked (el) {
+		console.log({el})
+		if (el) setImageUrl(el.dataset.src)
+		return false
+	}
+
 	function previewAllImages () {
 		const previewContainer = document.getElementById('previews')
 		const images = []
@@ -116,7 +122,7 @@
 			() => {
 				console.log(images)
 				html = images.map(
-					img => `<img class="lozad imgpreview" data-src="${img.url}">`
+					img => `<img class="lozad imgpreview" onClick="imageClicked(this)" data-src="${img.url}">`
 					).join("\n")
 				previewContainer.innerHTML = html
 				Lozad.observe()
