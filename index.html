@@ -12,6 +12,7 @@
 </script>
 <script src="https://togetherjs.com/togetherjs-min.js"></script>
 <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lozad"></script>
 <body>
 	<main class="cd-main-content">
 		<input type="url" name="url" id="url"
@@ -32,7 +33,7 @@
 		</header>
 
 		<div class="cd-panel__container">
-			<div class="cd-panel__content">
+			<div id="previews" class="cd-panel__content">
 				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam magnam accusamus obcaecati nisi eveniet quo veniam quibusdam veritatis autem accusantium doloribus nam mollitia maxime explicabo nemo quae aspernatur impedit cupiditate dicta molestias consectetur, sint reprehenderit maiores. Tempora, exercitationem, voluptate. Sapiente modi officiis nulla sed ullam, amet placeat, illum necessitatibus, eveniet dolorum et maiores earum tempora, quas iste perspiciatis quibusdam vero accusamus veritatis. Recusandae sunt, repellat incidunt impedit tempore iusto, nostrum eaque necessitatibus sint eos omnis! Beatae, itaque, in. Vel reiciendis consequatur saepe soluta itaque aliquam praesentium, neque tempora. Voluptatibus sit, totam rerum quo ex nemo pariatur tempora voluptatem est repudiandae iusto, architecto perferendis sequi, asperiores dolores doloremque odit. Libero, ipsum fuga repellat quae numquam cumque nobis ipsa voluptates pariatur, a rerum aspernatur aliquid maxime magnam vero dolorum omnis neque fugit laboriosam eveniet veniam explicabo, similique reprehenderit at. Iusto totam vitae blanditiis. Culpa, earum modi rerum velit voluptatum voluptatibus debitis, architecto aperiam vero tempora ratione sint ullam voluptas non! Odit sequi ipsa, voluptatem ratione illo ullam quaerat qui, vel dolorum eligendi similique inventore quisquam perferendis reprehenderit quos officia! Maxime aliquam, soluta reiciendis beatae quisquam. Alias porro facilis obcaecati et id, corporis accusamus? Ab porro fuga consequatur quisquam illo quae quas tenetur.</p>
 
 				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque similique, at excepturi adipisci repellat ut veritatis officia, saepe nemo soluta modi ducimus velit quam minus quis reiciendis culpa ullam quibusdam eveniet. Dolorum alias ducimus, ad, vitae delectus eligendi, possimus magni ipsam repudiandae iusto placeat repellat omnis veritatis adipisci aliquam hic ullam facere voluptatibus ratione laudantium perferendis quos ut. Beatae expedita, itaque assumenda libero voluptatem adipisci maiores voluptas accusantium, blanditiis saepe culpa laborum iusto maxime quae aperiam fugiat odit consequatur soluta hic. Sed quasi beatae quia repellendus, adipisci facilis ipsa vel, aperiam, consequatur eaque mollitia quaerat. Iusto fugit inventore eveniet velit.</p>
@@ -65,6 +66,10 @@
 	// db.images.put({name: 'Плата за мир', url:'http://bidstrup.ru/images/comicses/0920.gif'})
 	// db.images.put({name: 'car', url:'https://i.pinimg.com/474x/ed/35/fb/ed35fbefa01c7ea3015a0ef7c9201eb8--adult-coloring-coloring-books.jpg'})
 
+
+	// lazy loader
+	const Lozad = lozad()
+
 	function load (name) {
 		db.images.get(name).then(
 			image => {
@@ -95,6 +100,21 @@
 		)
 	}
 
+	function previewAllImages () {
+		const previewContainer = document.getElementById('previews')
+		const images = []
+		db.images.each(row => images.push(row)).then(
+			() => {
+				console.log(images)
+				html = images.map(
+					img => `<img class="lozad" data-src="${img.url}">`
+					).join("\n")
+				previewContainer.innerHTML = html
+				Lozad.observe()
+			}
+		)
+	}
+
 	(function(){
 		// Slide In Panel - by CodyHouse.co
 		var panelTriggers = document.getElementsByClassName('js-cd-panel-trigger');
@@ -107,6 +127,7 @@
 					panelTriggers[i].addEventListener('click', function(event){
 						event.preventDefault();
 						addClass(panel, 'cd-panel--is-visible');
+						previewAllImages()
 					});
 					//close panel when clicking on 'x' or outside the panel
 					panel.addEventListener('click', function(event){
