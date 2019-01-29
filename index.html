@@ -3,6 +3,10 @@
 #url {
   min-width: 70%;
 }
+
+.imgpreview {
+	width: 40%;
+}
 </style>
 <link rel="stylesheet" href="css/style.css">
 <script>
@@ -107,7 +111,7 @@
 			() => {
 				console.log(images)
 				html = images.map(
-					img => `<img class="lozad" data-src="${img.url}">`
+					img => `<img class="lozad imgpreview" data-src="${img.url}">`
 					).join("\n")
 				previewContainer.innerHTML = html
 				Lozad.observe()
