@@ -75,10 +75,14 @@
 	// lazy loader
 	const Lozad = lozad()
 
-	function setImageUrl (url) {
+	function setImageUrl (url, surpress) {
 		const imageInput = document.getElementById("url");
 		imageInput.value = url;
+		if (!surpress)
+			TogetherJS.send({type: 'setImageUrl', url})
 	}
+
+	TogetherJS.hub.on('setImageUrl', msg => setImageUrl(msg.url, true))
 
 	function load (name) {
 		db.images.get(name).then(
