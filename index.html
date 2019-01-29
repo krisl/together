@@ -75,6 +75,11 @@
 	// lazy loader
 	const Lozad = lozad()
 
+	function setImageUrl (url) {
+		const imageInput = document.getElementById("url");
+		imageInput.value = url;
+	}
+
 	function load (name) {
 		db.images.get(name).then(
 			image => {
@@ -82,8 +87,7 @@
 					console.log('Not found [' + name + ']')
 					return
 				}
-				const imageInput = document.getElementById("url");
-				imageInput.value = image.url;
+				setImageUrl(image.url)
 			}
 		)
 	}
