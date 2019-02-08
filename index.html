@@ -84,8 +84,12 @@
 
 	TogetherJS.hub.on('setImageUrl', msg => setImageUrl(msg.url, true))
 	TogetherJS.hub.on('setImages', msg => {
-		_images = msg.images
-		console.log('setImages', _images)
+		if (msg.peer && msg.peer.isCreator) {
+			_images = msg.images
+			console.log('setImages', _images)
+		} else {
+			console.log('ignoring setImages', {msg})
+		}
 	})
 	TogetherJS.hub.on('togetherjs.hello', msg => {
 		if (msg.isClient) {
