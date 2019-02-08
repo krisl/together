@@ -14,6 +14,10 @@
 	var TogetherJSConfig_cloneClicks = "#b" // clone clicks on load image button only
 	var TogetherJSConfig_autoStart = true
 	var TogetherJSConfig_suppressJoinConfirmation = true
+	var TogetherJSConfig_on_ready = function () {
+		var session = TogetherJS.require("session");
+		console.log({session});
+	}
 </script>
 <script src="https://togetherjs.com/togetherjs-min.js"></script>
 <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
@@ -78,6 +82,9 @@
 	}
 
 	TogetherJS.hub.on('setImageUrl', msg => setImageUrl(msg.url, true))
+	TogetherJS.hub.on('togetherjs.hello', msg => {
+		console.log({msg})
+	})
 
 	function load (name) {
 		db.images.get(name).then(
