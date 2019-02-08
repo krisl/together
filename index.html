@@ -71,6 +71,7 @@
 	// db.images.put({name: 'car', url:'https://i.pinimg.com/474x/ed/35/fb/ed35fbefa01c7ea3015a0ef7c9201eb8--adult-coloring-coloring-books.jpg'})
 
 
+	var _images
 	// lazy loader
 	const Lozad = lozad()
 
@@ -82,7 +83,18 @@
 	}
 
 	TogetherJS.hub.on('setImageUrl', msg => setImageUrl(msg.url, true))
+	TogetherJS.hub.on('setImages', msg => {
+		_images = msg.images
+		console.log('setImages', _images)
+	})
 	TogetherJS.hub.on('togetherjs.hello', msg => {
+		if (msg.isClient) {
+			const images = []
+			db.images.each(row => images.push(row)).then(() => {
+				console.log({images})
+				TogetherJS.send({type: 'setImages', images})
+			})
+		}
 		console.log({msg})
 	})
 
@@ -123,9 +135,10 @@
 
 	function previewAllImages () {
 		const previewContainer = document.getElementById('previews')
-		const images = []
+		var images = []
 		db.images.each(row => images.push(row)).then(
 			() => {
+				if (_images) { images = _images }
 				console.log(images)
 				html = images.map(
 					img => `<img class="lozad imgpreview" onClick="imageClicked(this)" data-src="${img.url}">`
