@@ -131,6 +131,18 @@
 		)
 	}
 
+	function addStory (name, lang, story) {
+		db.images.get(name).then(
+			image => {
+				if (!image) {
+					console.log('image does not exist [' + name + ']')
+					return
+				}
+
+				debugger
+			}
+		)
+	}
 	function imageClicked (el) {
 		console.log({el})
 		if (el) setImageUrl(el.dataset.src)
