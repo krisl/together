@@ -137,11 +137,14 @@
 		db.images.get(name).then(
 			image => {
 				if (image) {
-					console.log('image already exists [' + name + ']')
-					return
+					console.log(`image [${name}] already exists with url [${image.url}]`)
+					console.log({image})
+				} else {
+					image = {name}
 				}
 
-				db.images.put({name, url})
+				image.url = url
+				db.images.put(image)
 			}
 		)
 	}
