@@ -22,14 +22,12 @@
 <script src="https://togetherjs.com/togetherjs-min.js"></script>
 <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lozad"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.0.0/peerjs.min.js"></script>
 <body>
 	<main class="cd-main-content">
 		<input type="url" name="url" id="url"
 		       placeholder="https://site.com/path/to/image.jpg"
 		       required>
 		<button id="b">Load image</button>
-		<span id='peerId'>Connecting...</span>
 		<a href="#0" class="js-cd-panel-trigger" data-panel="main">
 			Images
 		</a>
@@ -51,32 +49,6 @@
 	</div> 
 </body>
 <script>
-	const idElement = document.getElementById('peerId')
-	function logData (data) {
-		console.log('Received', data);
-	}
-	const connections = []
-	const peer = new Peer()
-	// on hub connection
-	peer.on('open', (id) => {
-		console.log('peerId: ' + id);
-		idElement.innerText = id;
-	})
-
-	// incomming connections
-	peer.on('connection', conn => {
-	  console.log('incomming connection from', conn.metadata.name, conn)
-	  conn.on('open', function() {
-	    connections.push(conn)
-	    // Receive messages
-	    conn.on('data', logData)
-
-	    // Send messages
-	    console.log('sending initial state')
-	    conn.send('hello');
-	  });
-	})
-
 	// add handler to img button
 	document.getElementById("b").addEventListener("click", e => {
 		const imageInput = document.getElementById("url");
