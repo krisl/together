@@ -1,266 +1,266 @@
 <html>
-<head>
-  <title>Together</title>
-  <meta name="description" content="learn together">
-  <meta name="author" content="Kris">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-</head>
-<style>
+  <head>
+    <title>Together</title>
+    <meta name="description" content="learn together">
+    <meta name="author" content="Kris">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  </head>
+  <style>
 #url {
   min-width: 70%;
 }
 
 .imgpreview {
-	width: 40%;
+  width: 40%;
 }
-</style>
-<link rel="stylesheet" href="css/style.css">
-<script>
-	var TogetherJSConfig_dontShowClicks = ".cd-panel"
-	var TogetherJSConfig_cloneClicks = "#b" // clone clicks on load image button only
-	var TogetherJSConfig_suppressJoinConfirmation = true
-	var TogetherJSConfig_suppressInvite = true
-  var TogetherJSConfig_disableWebRTC = true
-	var TogetherJSConfig_on_ready = function () {
-		var session = TogetherJS.require("session");
-		console.log({session});
-	}
-</script>
-<script src="https://togetherjs.com/togetherjs-min.js"></script>
-<script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lozad"></script>
-<body>
-	<main class="cd-main-content">
-    <button
-      id="start-togetherjs" type="button"
-      onclick="TogetherJS(this); return false"
-      data-end-togetherjs-html="End TogetherJS">
+  </style>
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    var TogetherJSConfig_dontShowClicks = ".cd-panel"
+    var TogetherJSConfig_cloneClicks = "#b" // clone clicks on load image button only
+    var TogetherJSConfig_suppressJoinConfirmation = true
+    var TogetherJSConfig_suppressInvite = true
+    var TogetherJSConfig_disableWebRTC = true
+    var TogetherJSConfig_on_ready = function () {
+      var session = TogetherJS.require("session");
+      console.log({session});
+    }
+  </script>
+  <script src="https://togetherjs.com/togetherjs-min.js"></script>
+  <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lozad"></script>
+  <body>
+    <main class="cd-main-content">
+      <button
+        id="start-togetherjs" type="button"
+                              onclick="TogetherJS(this); return false"
+                              data-end-togetherjs-html="End TogetherJS">
         Start TogetherJS
-    </button>
-		<input type="url" name="url" id="url"
-		       placeholder="https://site.com/path/to/image.jpg"
-		       required>
-		<button id="b">Load image</button>
-		<a href="#0" class="js-cd-panel-trigger" data-panel="main">
-			Images
-		</a>
-		<a href="#1" class="js-cd-panel-trigger" data-panel="story">
-			Story
-		</a>
-		<br>
+      </button>
+      <input type="url" name="url" id="url"
+                                   placeholder="https://site.com/path/to/image.jpg"
+                                   required>
+      <button id="b">Load image</button>
+      <a href="#0" class="js-cd-panel-trigger" data-panel="main">
+        Images
+      </a>
+      <a href="#1" class="js-cd-panel-trigger" data-panel="story">
+        Story
+      </a>
+      <br>
 
-		<img src="" id="image">
-	</main>
-	<div class="cd-panel cd-panel--from-right js-cd-panel-main">
-		<header class="cd-panel__header">
-			<h1>Images</h1>
-			<a href="#0" class="cd-panel__close js-cd-close">Close</a>
-		</header>
+      <img src="" id="image">
+    </main>
+    <div class="cd-panel cd-panel--from-right js-cd-panel-main">
+      <header class="cd-panel__header">
+        <h1>Images</h1>
+        <a href="#0" class="cd-panel__close js-cd-close">Close</a>
+      </header>
 
-		<div class="cd-panel__container">
-			<div id="previews" class="cd-panel__content">
-				<p>Loading...</p>
-			</div>
-		</div>
-	</div> 
-	<div class="cd-panel cd-panel--from-right js-cd-panel-story">
-		<header class="cd-panel__header">
-			<h1>Story</h1>
-			<a href="#1" class="cd-panel__close js-cd-close">Close</a>
-		</header>
+      <div class="cd-panel__container">
+        <div id="previews" class="cd-panel__content">
+          <p>Loading...</p>
+        </div>
+      </div>
+    </div> 
+    <div class="cd-panel cd-panel--from-right js-cd-panel-story">
+      <header class="cd-panel__header">
+        <h1>Story</h1>
+        <a href="#1" class="cd-panel__close js-cd-close">Close</a>
+      </header>
 
-		<div class="cd-panel__container">
-			<div id="story" class="cd-panel__content">
-				<p>Loading...</p>
-			</div>
-		</div>
-	</div> 
-</body>
-<script>
-	// add handler to img button
-	document.getElementById("b").addEventListener("click", e => {
-		const imageInput = document.getElementById("url");
-		if (imageInput.value) {
-			const image = document.getElementById("image");
-			image.onload = () => TogetherJS.send({type: 'imageLoaded', url: imageInput.value});
-			image.src = imageInput.value;
-		}
-	});
-
-
-	// initialise dexie
-	var db = new Dexie("images");
-	db.version(1).stores({
-		images: 'name,url'
-	});
-
-	// db.images.put({name: 'Банковские операции', url:'http://bidstrup.ru/images/comicses/0908.gif'})
-	// db.images.put({name: 'Плата за мир', url:'http://bidstrup.ru/images/comicses/0920.gif'})
-	// db.images.put({name: 'car', url:'https://i.pinimg.com/474x/ed/35/fb/ed35fbefa01c7ea3015a0ef7c9201eb8--adult-coloring-coloring-books.jpg'})
+      <div class="cd-panel__container">
+        <div id="story" class="cd-panel__content">
+          <p>Loading...</p>
+        </div>
+      </div>
+    </div> 
+  </body>
+  <script>
+    // add handler to img button
+    document.getElementById("b").addEventListener("click", e => {
+      const imageInput = document.getElementById("url");
+      if (imageInput.value) {
+        const image = document.getElementById("image");
+        image.onload = () => TogetherJS.send({type: 'imageLoaded', url: imageInput.value});
+        image.src = imageInput.value;
+      }
+    });
 
 
-	var _images
-	// lazy loader
-	const Lozad = lozad()
+    // initialise dexie
+    var db = new Dexie("images");
+    db.version(1).stores({
+      images: 'name,url'
+    });
 
-	function setImageUrl (url, surpress) {
-		const imageInput = document.getElementById("url");
-		imageInput.value = url;
-		if (!surpress)
-			TogetherJS.send({type: 'setImageUrl', url})
-	}
+    // db.images.put({name: 'Банковские операции', url:'http://bidstrup.ru/images/comicses/0908.gif'})
+    // db.images.put({name: 'Плата за мир', url:'http://bidstrup.ru/images/comicses/0920.gif'})
+    // db.images.put({name: 'car', url:'https://i.pinimg.com/474x/ed/35/fb/ed35fbefa01c7ea3015a0ef7c9201eb8--adult-coloring-coloring-books.jpg'})
 
-	TogetherJS.hub.on('setImageUrl', msg => setImageUrl(msg.url, true))
-	TogetherJS.hub.on('setImages', msg => {
-		if (msg.peer && msg.peer.isCreator) {
-			_images = msg.images
-			console.log('setImages', _images)
-		} else {
-			console.log('ignoring setImages', {msg})
-		}
-	})
-	TogetherJS.hub.on('togetherjs.hello', msg => {
-		if (msg.isClient) {
-			const images = []
-			db.images.each(row => images.push(row)).then(() => {
-				console.log({images})
-				TogetherJS.send({type: 'setImages', images})
-			})
-		}
-		console.log({msg})
-	})
 
-	function load (name) {
-		db.images.get(name).then(
-			image => {
-				if (!image) {
-					console.log('Not found [' + name + ']')
-					return
-				}
-				setImageUrl(image.url)
-			}
-		)
-	}
+    var _images
+    // lazy loader
+    const Lozad = lozad()
 
-	function each () {
-		db.images.each(row => console.log(row.name, row.url))
-	}
+    function setImageUrl (url, surpress) {
+      const imageInput = document.getElementById("url");
+      imageInput.value = url;
+      if (!surpress)
+        TogetherJS.send({type: 'setImageUrl', url})
+    }
 
-	function add (name, url) {
-		db.images.get(name).then(
-			image => {
-				if (image) {
-					console.log(`image [${name}] already exists with url [${image.url}]`)
-					console.log({image})
-				} else {
-					image = {name}
-				}
+    TogetherJS.hub.on('setImageUrl', msg => setImageUrl(msg.url, true))
+    TogetherJS.hub.on('setImages', msg => {
+      if (msg.peer && msg.peer.isCreator) {
+        _images = msg.images
+        console.log('setImages', _images)
+      } else {
+        console.log('ignoring setImages', {msg})
+      }
+    })
+    TogetherJS.hub.on('togetherjs.hello', msg => {
+      if (msg.isClient) {
+        const images = []
+        db.images.each(row => images.push(row)).then(() => {
+          console.log({images})
+          TogetherJS.send({type: 'setImages', images})
+        })
+      }
+      console.log({msg})
+    })
 
-				image.url = url
-				db.images.put(image)
-			}
-		)
-	}
+    function load (name) {
+      db.images.get(name).then(
+        image => {
+          if (!image) {
+            console.log('Not found [' + name + ']')
+            return
+          }
+          setImageUrl(image.url)
+        }
+      )
+    }
 
-	function addStory (name, lang, story) {
-		db.images.get(name).then(
-			image => {
-				if (!image) {
-					console.log('image does not exist [' + name + ']')
-					return
-				}
+    function each () {
+      db.images.each(row => console.log(row.name, row.url))
+    }
 
-				image.story = (image.story || {})
-				image.story[lang] = story
-				db.images.put(image)
-			}
-		)
-	}
-	function imageClicked (el) {
-		console.log({el})
-		if (el) setImageUrl(el.dataset.src)
-		return false
-	}
+    function add (name, url) {
+      db.images.get(name).then(
+        image => {
+          if (image) {
+            console.log(`image [${name}] already exists with url [${image.url}]`)
+            console.log({image})
+          } else {
+            image = {name}
+          }
 
-	function previewAllImages () {
-		const previewContainer = document.getElementById('previews')
-		var images = []
-		db.images.each(row => images.push(row)).then(
-			() => {
-				if (_images) { images = _images }
-				console.log(images)
-				html = images.map(
-					img => `<img class="lozad imgpreview" onClick="imageClicked(this)" data-src="${img.url}">`
-					).join("\n")
-				previewContainer.innerHTML = html
-				Lozad.observe()
-			}
-		)
-	}
+          image.url = url
+          db.images.put(image)
+        }
+      )
+    }
 
-	function loadStory () {
-		const src = document.getElementById("image").src;
-		const storyContainer = document.getElementById('story')
-		var images = []
-		db.images.each(row => images.push(row)).then(
-			() => {
-				if (_images) { images = _images }
-				const storyImage = images.find(image => image.url == src) || {}
-				const stories = storyImage.story || {}
-				console.log('stories', stories)
-				html = Object.keys(stories).map(lang => `<p class="${lang}">${stories[lang]}</p>`).join("\n")
-				storyContainer.innerHTML = html
-			}
-		)
-	}
+    function addStory (name, lang, story) {
+      db.images.get(name).then(
+        image => {
+          if (!image) {
+            console.log('image does not exist [' + name + ']')
+            return
+          }
 
-	(function(){
-		// Slide In Panel - by CodyHouse.co
-		var panelTriggers = document.getElementsByClassName('js-cd-panel-trigger');
-		if( panelTriggers.length > 0 ) {
-			for(var i = 0; i < panelTriggers.length; i++) {
-				(function(i){
-					var panelClass = 'js-cd-panel-'+panelTriggers[i].getAttribute('data-panel'),
-						panel = document.getElementsByClassName(panelClass)[0];
-					// open panel when clicking on trigger btn
-					panelTriggers[i].addEventListener('click', function(event){
-						event.preventDefault();
-						addClass(panel, 'cd-panel--is-visible');
+          image.story = (image.story || {})
+          image.story[lang] = story
+          db.images.put(image)
+        }
+      )
+    }
+    function imageClicked (el) {
+      console.log({el})
+      if (el) setImageUrl(el.dataset.src)
+      return false
+    }
 
-						// FIXME only do the operation for the correct container
-						previewAllImages()
-						loadStory()
-					});
-					//close panel when clicking on 'x' or outside the panel
-					panel.addEventListener('click', function(event){
-						if( hasClass(event.target, 'js-cd-close') || hasClass(event.target, panelClass)) {
-							event.preventDefault();
-							removeClass(panel, 'cd-panel--is-visible');
-						}
-					});
-				})(i);
-			}
-		}
+    function previewAllImages () {
+      const previewContainer = document.getElementById('previews')
+      var images = []
+      db.images.each(row => images.push(row)).then(
+        () => {
+          if (_images) { images = _images }
+          console.log(images)
+          html = images.map(
+            img => `<img class="lozad imgpreview" onClick="imageClicked(this)" data-src="${img.url}">`
+          ).join("\n")
+          previewContainer.innerHTML = html
+          Lozad.observe()
+        }
+      )
+    }
 
-		//class manipulations - needed if classList is not supported
-		//https://jaketrent.com/post/addremove-classes-raw-javascript/
-		function hasClass(el, className) {
-			if (el.classList) return el.classList.contains(className);
-			else return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'));
-		}
-		function addClass(el, className) {
-			if (el.classList) el.classList.add(className);
-			else if (!hasClass(el, className)) el.className += " " + className;
-		}
-		function removeClass(el, className) {
-			if (el.classList) el.classList.remove(className);
-			else if (hasClass(el, className)) {
-				var reg = new RegExp('(\\s|^)' + className + '(\\s|$)');
-				el.className=el.className.replace(reg, ' ');
-			}
-		}
-	})();
-</script>
+    function loadStory () {
+      const src = document.getElementById("image").src;
+      const storyContainer = document.getElementById('story')
+      var images = []
+      db.images.each(row => images.push(row)).then(
+        () => {
+          if (_images) { images = _images }
+          const storyImage = images.find(image => image.url == src) || {}
+          const stories = storyImage.story || {}
+          console.log('stories', stories)
+          html = Object.keys(stories).map(lang => `<p class="${lang}">${stories[lang]}</p>`).join("\n")
+          storyContainer.innerHTML = html
+        }
+      )
+    }
+
+    (function(){
+      // Slide In Panel - by CodyHouse.co
+      var panelTriggers = document.getElementsByClassName('js-cd-panel-trigger');
+      if( panelTriggers.length > 0 ) {
+        for(var i = 0; i < panelTriggers.length; i++) {
+          (function(i){
+            var panelClass = 'js-cd-panel-'+panelTriggers[i].getAttribute('data-panel'),
+              panel = document.getElementsByClassName(panelClass)[0];
+            // open panel when clicking on trigger btn
+            panelTriggers[i].addEventListener('click', function(event){
+              event.preventDefault();
+              addClass(panel, 'cd-panel--is-visible');
+
+              // FIXME only do the operation for the correct container
+              previewAllImages()
+              loadStory()
+            });
+            //close panel when clicking on 'x' or outside the panel
+            panel.addEventListener('click', function(event){
+              if( hasClass(event.target, 'js-cd-close') || hasClass(event.target, panelClass)) {
+                event.preventDefault();
+                removeClass(panel, 'cd-panel--is-visible');
+              }
+            });
+          })(i);
+        }
+      }
+
+      //class manipulations - needed if classList is not supported
+      //https://jaketrent.com/post/addremove-classes-raw-javascript/
+        function hasClass(el, className) {
+          if (el.classList) return el.classList.contains(className);
+          else return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'));
+        }
+      function addClass(el, className) {
+        if (el.classList) el.classList.add(className);
+        else if (!hasClass(el, className)) el.className += " " + className;
+      }
+      function removeClass(el, className) {
+        if (el.classList) el.classList.remove(className);
+        else if (hasClass(el, className)) {
+          var reg = new RegExp('(\\s|^)' + className + '(\\s|$)');
+          el.className=el.className.replace(reg, ' ');
+        }
+      }
+    })();
+  </script>
 </html>
 
 
