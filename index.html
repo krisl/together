@@ -31,6 +31,26 @@
     var TogetherJSConfig_on_ready = function () {
       var session = TogetherJS.require("session");
       console.log({session});
+      TogetherJS.hub.on('setImageUrl', msg => setImageUrl(msg.url, true))
+      TogetherJS.hub.on('setImages', msg => {
+        if (msg.peer && msg.peer.isCreator) {
+          _images = msg.images
+          console.log('setImages', _images)
+        } else {
+          console.log('ignoring setImages', {msg})
+        }
+      })
+      TogetherJS.hub.on('togetherjs.hello', msg => {
+        if (msg.isClient) {
+          const images = []
+          db.images.each(row => images.push(row)).then(() => {
+            console.log({images})
+            TogetherJS.send({type: 'setImages', images})
+          })
+        }
+        console.log({msg})
+      })
+
     }
   </script>
   <script src="https://togetherjs.com/togetherjs-min.js"></script>
@@ -113,26 +133,6 @@
         if (!surpress)
           TogetherJS.send({type: 'setImageUrl', url})
       }
-
-      TogetherJS.hub.on('setImageUrl', msg => setImageUrl(msg.url, true))
-      TogetherJS.hub.on('setImages', msg => {
-        if (msg.peer && msg.peer.isCreator) {
-          _images = msg.images
-          console.log('setImages', _images)
-        } else {
-          console.log('ignoring setImages', {msg})
-        }
-      })
-      TogetherJS.hub.on('togetherjs.hello', msg => {
-        if (msg.isClient) {
-          const images = []
-          db.images.each(row => images.push(row)).then(() => {
-            console.log({images})
-            TogetherJS.send({type: 'setImages', images})
-          })
-        }
-        console.log({msg})
-      })
 
       function load (name) {
         db.images.get(name).then(
