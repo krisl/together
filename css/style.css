@@ -77,6 +77,7 @@ Slide In Panel - by CodyHouse.co
 .cd-panel__header h1 {
   color: #89ba2c;
   padding-left: 5%;
+  margin: 0;
 }
 
 .cd-panel--from-right .cd-panel__header {
