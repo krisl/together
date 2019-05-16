@@ -34,8 +34,7 @@
     }
   </script>
   <script src="https://togetherjs.com/togetherjs-min.js"></script>
-  <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lozad"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/lozad"></script>
   <script defer src="./panel.js"></script>
   <body>
     <main class="cd-main-content">
@@ -84,6 +83,7 @@
       </div>
     </div> 
   </body>
+  <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
   <script>
     // add handler to img button
     document.getElementById("b").addEventListener("click", e => {
@@ -106,10 +106,7 @@
     // db.images.put({name: 'Плата за мир', url:'http://bidstrup.ru/images/comicses/0920.gif'})
     // db.images.put({name: 'car', url:'https://i.pinimg.com/474x/ed/35/fb/ed35fbefa01c7ea3015a0ef7c9201eb8--adult-coloring-coloring-books.jpg'})
 
-
     var _images
-    // lazy loader
-    const Lozad = lozad()
 
     function setImageUrl (url, surpress) {
       const imageInput = document.getElementById("url");
@@ -188,22 +185,6 @@
       console.log({el})
       if (el) setImageUrl(el.dataset.src)
       return false
-    }
-
-    function previewAllImages () {
-      const previewContainer = document.getElementById('previews')
-      var images = []
-      db.images.each(row => images.push(row)).then(
-        () => {
-          if (_images) { images = _images }
-          console.log(images)
-          html = images.map(
-            img => `<img class="lozad imgpreview" onClick="imageClicked(this)" data-src="${img.url}">`
-          ).join("\n")
-          previewContainer.innerHTML = html
-          Lozad.observe()
-        }
-      )
     }
 
     function loadStory () {
