@@ -80,7 +80,10 @@
     </main>
     <div class="cd-panel cd-panel--from-right js-cd-panel-main">
       <header class="cd-panel__header">
-        <h1>Images</h1>
+        <h1>
+          Images
+          <input style='margin-left:30px;' id="browse" type="file" onchange="addFiles()" multiple>
+        </h1>
         <a href="#0" class="cd-panel__close js-cd-close">Close</a>
       </header>
 
@@ -104,6 +107,37 @@
     </div> 
     <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
     <script>
+      function addFiles() {
+        const input = document.querySelector('input[type=file]')
+        const files = input.files
+        function readAndPreview(file) {
+
+          // Make sure `file.name` matches our extensions criteria
+          if ( /\.(jpe?g|png|gif)$/i.test(file.name) ) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+              const name = e.timeStamp.toString()
+              const src = this.result;
+              console.log({name, src})
+              add(name, src).then(
+                // TODO previewAllImages only after all have been saved
+                () => previewAllImages()
+              )
+              console.log({e})
+            }
+
+            reader.readAsDataURL(file);
+          }
+
+        }
+
+        if (files) {
+          [].forEach.call(files, readAndPreview);
+        }
+
+        input.value = null
+      }
       // add handler to img button
       document.getElementById("b").addEventListener("click", e => {
         const imageInput = document.getElementById("url");
