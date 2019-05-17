@@ -151,7 +151,7 @@
       }
 
       function add (name, url) {
-        db.images.get(name).then(
+        return db.images.get(name).then(
           image => {
             if (image) {
               console.log(`image [${name}] already exists with url [${image.url}]`)
@@ -161,7 +161,7 @@
             }
 
             image.url = url
-            db.images.put(image)
+            return db.images.put(image)
           }
         )
       }
