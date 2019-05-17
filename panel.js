@@ -1,22 +1,24 @@
-(function(){
+function previewAllImages () {
+  // TODO can we move this back out somehow?
   // lazy loader
   const Lozad = lozad()
 
-  function previewAllImages () {
-    const previewContainer = document.getElementById('previews')
-    var images = []
-    db.images.each(row => images.push(row)).then(
-      () => {
-        if (_images) { images = _images }
-        console.log(images)
-        html = images.map(
-          img => `<img class="lozad imgpreview" onClick="imageClicked(this)" data-src="${img.url}">`
-        ).join("\n")
-        previewContainer.innerHTML = html
-        Lozad.observe()
-      }
-    )
-  }
+  const previewContainer = document.getElementById('previews')
+  var images = []
+  db.images.each(row => images.push(row)).then(
+    () => {
+      if (_images) { images = _images }
+      console.log(images)
+      html = images.map(
+        img => `<img class="lozad imgpreview" onClick="imageClicked(this)" data-src="${img.url}">`
+      ).join("\n")
+      previewContainer.innerHTML = html
+      Lozad.observe()
+    }
+  )
+}
+
+(function(){
 
   // Slide In Panel - by CodyHouse.co
   var panelTriggers = document.getElementsByClassName('js-cd-panel-trigger');
