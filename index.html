@@ -44,7 +44,7 @@
       })
       TogetherJS.hub.on('togetherjs.hello', msg => {
         if (msg.isClient) {
-          getImagesPromise().then((images) => {
+          getOurImagesPromise().then((images) => {
             console.log('Sending Images to client:', images)
             TogetherJS.send({type: 'setImages', images})
           })
@@ -239,9 +239,15 @@
         if (_creatorImages) {
           return Promise.resolve(_creatorImages)
         }
+        return getOurImagesPromise()
+      }
+
+      // getOurImagesPromise :: global -> OurImages
+      function getOurImagesPromise () {
         const images = []
         return db.images.each(row => images.push(row)).then(() => images)
       }
+
     </script>
   </body>
 </html>
