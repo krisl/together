@@ -1,3 +1,7 @@
+const mapImages = (images) => images.map(
+  img => `<img class="lozad imgpreview" onClick="imageClicked(this)" data-src="${img.url}">`
+)
+
 function previewAllImages () {
   // TODO can we move this back out somehow?
   // lazy loader
@@ -7,10 +11,12 @@ function previewAllImages () {
   getImagesPromise().then(
     (images) => {
       console.log(images)
-      html = images.map(
-        img => `<img class="lozad imgpreview" onClick="imageClicked(this)" data-src="${img.url}">`
-      ).join("\n")
-      previewContainer.innerHTML = html
+      html = mapImages(images)
+      Object.entries(peerImages).forEach(([peerId, images]) => {
+        html.push(`<h3>${peerId}</h3>`)
+        html = html.concat(mapImages(images))
+      })
+      previewContainer.innerHTML = html.join("\n")
       Lozad.observe()
     }
   )
