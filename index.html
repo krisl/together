@@ -24,6 +24,7 @@
   </style>
   <link rel="stylesheet" href="css/style.css">
   <script>
+    var _images
     var TogetherJSConfig_dontShowClicks = ".cd-panel"
     var TogetherJSConfig_cloneClicks = "#b" // clone clicks on load image button only
     var TogetherJSConfig_suppressJoinConfirmation = true
@@ -158,8 +159,6 @@
       // db.images.put({name: 'Банковские операции', url:'http://bidstrup.ru/images/comicses/0908.gif'})
       // db.images.put({name: 'Плата за мир', url:'http://bidstrup.ru/images/comicses/0920.gif'})
       // db.images.put({name: 'car', url:'https://i.pinimg.com/474x/ed/35/fb/ed35fbefa01c7ea3015a0ef7c9201eb8--adult-coloring-coloring-books.jpg'})
-
-      var _images
 
       function setImageUrl (url, surpress) {
         const imageInput = document.getElementById("url");
