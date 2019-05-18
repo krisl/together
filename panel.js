@@ -4,10 +4,8 @@ function previewAllImages () {
   const Lozad = lozad()
 
   const previewContainer = document.getElementById('previews')
-  var images = []
-  db.images.each(row => images.push(row)).then(
-    () => {
-      if (_images) { images = _images }
+  getImagesPromise().then(
+    (images) => {
       console.log(images)
       html = images.map(
         img => `<img class="lozad imgpreview" onClick="imageClicked(this)" data-src="${img.url}">`

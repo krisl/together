@@ -24,7 +24,7 @@
   </style>
   <link rel="stylesheet" href="css/style.css">
   <script>
-    var _images
+    var _creatorImages
     var TogetherJSConfig_dontShowClicks = ".cd-panel"
     var TogetherJSConfig_cloneClicks = "#b" // clone clicks on load image button only
     var TogetherJSConfig_suppressJoinConfirmation = true
@@ -35,7 +35,7 @@
       TogetherJS.hub.on('setImageUrl', msg => setImageUrl(msg.url, true))
       TogetherJS.hub.on('setImages', msg => {
         if (msg.peer && msg.peer.isCreator) {
-          _images = msg.images
+          _creatorImages = msg.images
           console.log('setImages', _images)
         } else {
           console.log('ignoring setImages', {msg})
@@ -43,8 +43,7 @@
       })
       TogetherJS.hub.on('togetherjs.hello', msg => {
         if (msg.isClient) {
-          const images = []
-          db.images.each(row => images.push(row)).then(() => {
+          getImagesPromise().then((images) => {
             console.log({images})
             TogetherJS.send({type: 'setImages', images})
           })
@@ -222,10 +221,8 @@
       function loadStory () {
         const src = document.getElementById("image").src;
         const storyContainer = document.getElementById('story')
-        var images = []
-        db.images.each(row => images.push(row)).then(
-          () => {
-            if (_images) { images = _images }
+        getImagesPromise().then(
+          (images) => {
             const storyImage = images.find(image => image.url == src) || {}
             const stories = storyImage.story || {}
             console.log('stories', stories)
@@ -235,6 +232,13 @@
         )
       }
 
+      function getImagesPromise () {
+        if (_creatorImages) {
+          return Promise.resolve(_creatorImages)
+        }
+        const images = []
+        return db.images.each(row => images.push(row)).then(() => images)
+      }
     </script>
   </body>
 </html>
