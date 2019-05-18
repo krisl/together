@@ -25,6 +25,14 @@
   <link rel="stylesheet" href="css/style.css">
   <script>
     const peerImages = {}
+
+    function broadcastAllImages () {
+      getOurImagesPromise().then((images) => {
+        console.log('Sending Images to client', images)
+        TogetherJS.send({type: 'setImages', images})
+      })
+    }
+
     var TogetherJSConfig_dontShowClicks = ".cd-panel"
     var TogetherJSConfig_cloneClicks = "#b" // clone clicks on load image button only
     var TogetherJSConfig_suppressJoinConfirmation = true
@@ -41,10 +49,7 @@
       })
       TogetherJS.hub.on('togetherjs.hello', msg => {
         // FIXME sent only to hello client, can be done?
-        getOurImagesPromise().then((images) => {
-          console.log('Sending Images to client', {msg}, images)
-          TogetherJS.send({type: 'setImages', images})
-        })
+        broadcastAllImages()
       })
 
     }
