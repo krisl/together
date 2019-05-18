@@ -33,6 +33,7 @@
       var session = TogetherJS.require("session");
       console.log({session});
       TogetherJS.hub.on('setImageUrl', msg => setImageUrl(msg.url, true))
+      TogetherJS.hub.on('imagesSet', msg => console.log('imagesSet', {msg}))
       TogetherJS.hub.on('setImages', msg => {
         if (msg.peer && msg.peer.isCreator) {
           _creatorImages = msg.images
@@ -45,11 +46,12 @@
       TogetherJS.hub.on('togetherjs.hello', msg => {
         if (msg.isClient) {
           getOurImagesPromise().then((images) => {
-            console.log('Sending Images to client:', images)
+            console.log('Sending Images to client', {msg}, images)
             TogetherJS.send({type: 'setImages', images})
           })
+        } else {
+          console.log('Not sending images', {msg})
         }
-        console.log('Not sending images', {msg})
       })
 
     }
