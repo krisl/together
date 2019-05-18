@@ -43,6 +43,11 @@
       broadcastAllImages()
       TogetherJS.hub.on('setImageUrl', msg => setImageUrl(msg.url, true))
       TogetherJS.hub.on('imagesSet', msg => console.log('imagesSet', {msg}))
+      TogetherJS.hub.on('togetherjs.peer-update', msg => {
+        const peerInfo = peerImages[msg.clientId]
+        peerImages[msg.clientId] = { ...peerInfo, name: msg.name }
+      })
+    
       TogetherJS.hub.on('setImages', msg => {
         peerImages[msg.clientId] = { images: msg.images, name: msg.peer.name }
         console.log('setImages', {msg})
