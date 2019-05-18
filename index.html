@@ -45,11 +45,11 @@
       TogetherJS.hub.on('togetherjs.hello', msg => {
         if (msg.isClient) {
           getImagesPromise().then((images) => {
-            console.log({images})
+            console.log('Sending Images to client:', images)
             TogetherJS.send({type: 'setImages', images})
           })
         }
-        console.log({msg})
+        console.log('Not sending images', {msg})
       })
 
     }
