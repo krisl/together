@@ -24,7 +24,7 @@
   </style>
   <link rel="stylesheet" href="css/style.css">
   <script>
-    var _creatorImages
+    const peerImages = {}
     var TogetherJSConfig_dontShowClicks = ".cd-panel"
     var TogetherJSConfig_cloneClicks = "#b" // clone clicks on load image button only
     var TogetherJSConfig_suppressJoinConfirmation = true
@@ -35,23 +35,16 @@
       TogetherJS.hub.on('setImageUrl', msg => setImageUrl(msg.url, true))
       TogetherJS.hub.on('imagesSet', msg => console.log('imagesSet', {msg}))
       TogetherJS.hub.on('setImages', msg => {
-        if (msg.peer && msg.peer.isCreator) {
-          _creatorImages = msg.images
-          console.log('setImages', _images)
-          TogetherJS.send({type: 'imagesSet', qty: _creatorImages.length});
-        } else {
-          console.log('ignoring setImages', {msg})
-        }
+        peerImages[msg.clientId] = msg.images
+        console.log('setImages', {msg})
+        TogetherJS.send({type: 'imagesSet', qty: msg.images.length});
       })
       TogetherJS.hub.on('togetherjs.hello', msg => {
-        if (msg.isClient) {
-          getOurImagesPromise().then((images) => {
-            console.log('Sending Images to client', {msg}, images)
-            TogetherJS.send({type: 'setImages', images})
-          })
-        } else {
-          console.log('Not sending images', {msg})
-        }
+        // FIXME sent only to hello client, can be done?
+        getOurImagesPromise().then((images) => {
+          console.log('Sending Images to client', {msg}, images)
+          TogetherJS.send({type: 'setImages', images})
+        })
       })
 
     }
@@ -238,10 +231,7 @@
       // OurImages | TheirImages :: [Image]
       // getImagesPromise :: global -> OurImages | TheirImages
       function getImagesPromise () {
-        if (_creatorImages) {
-          return Promise.resolve(_creatorImages)
-        }
-        return getOurImagesPromise()
+        return getOurImagesPromise() // .then(images => (images.peerImages = peerImages, images)
       }
 
       // getOurImagesPromise :: global -> OurImages
