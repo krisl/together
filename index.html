@@ -40,6 +40,7 @@
     var TogetherJSConfig_on_ready = function () {
       var session = TogetherJS.require("session");
       console.log({session});
+      broadcastAllImages()
       TogetherJS.hub.on('setImageUrl', msg => setImageUrl(msg.url, true))
       TogetherJS.hub.on('imagesSet', msg => console.log('imagesSet', {msg}))
       TogetherJS.hub.on('setImages', msg => {
