@@ -12,8 +12,8 @@ function previewAllImages () {
     (images) => {
       console.log(images)
       html = mapImages(images)
-      Object.entries(peerImages).forEach(([peerId, images]) => {
-        html.push(`<h3>${peerId}</h3>`)
+      Object.entries(peerImages).forEach(([peerId, {name, images}]) => {
+        html.push(`<h3>${name} ${peerId}</h3>`)
         html = html.concat(mapImages(images))
       })
       previewContainer.innerHTML = html.join("\n")
