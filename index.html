@@ -45,7 +45,7 @@
       TogetherJS.hub.on('imagesSet', msg => console.log('imagesSet', {msg}))
       TogetherJS.hub.on('togetherjs.peer-update', msg => {
         const peerInfo = peerImages[msg.clientId]
-        peerImages[msg.clientId] = { ...peerInfo, name: msg.name }
+        peerImages[msg.clientId] = { images: peerInfo.images, name: msg.name }
       })
     
       TogetherJS.hub.on('setImages', msg => {
