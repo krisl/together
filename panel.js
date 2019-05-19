@@ -1,3 +1,15 @@
+if (!Object.entries) {
+  Object.entries = function( obj ){
+    var ownProps = Object.keys( obj ),
+      i = ownProps.length,
+      resArray = new Array(i); // preallocate the Array
+    while (i--)
+      resArray[i] = [ownProps[i], obj[ownProps[i]]];
+
+    return resArray;
+  };
+}
+
 const mapImages = (images) => images.map(
   img => `<img class="lozad imgpreview" onClick="imageClicked(this)" data-src="${img.url}">`
 )
