@@ -267,9 +267,23 @@
       }
       /* end console functions */
 
+      function setImageUrlFromThumbnail (dataset) {
+        if (dataset.peerid === '') { //its our own
+          db.images.get(dataset.name).then(image => setImageUrl(image.url))
+        } else {
+          const peerInfo = peerImages[dataset.peerid]
+          const image = peerInfo && (peerInfo.images || []).find(i => i.name === dataset.name)
+          if (image && (image.previewUrl || image.url)) {
+            setImageUrl(image.previewUrl || image.url)
+          } else {
+            console.log('very strange', {dataset, peerInfo})
+          }
+        }
+      }
+
       function imageClicked (el) {
         console.log({el})
-        if (el) setImageUrl(el.dataset.src)
+        if (el) setImageUrlFromThumbnail(el.dataset)
         return false
       }
 
