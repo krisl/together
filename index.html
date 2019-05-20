@@ -29,7 +29,15 @@
     function broadcastAllImages () {
       getOurImagesPromise().then((images) => {
         console.log('Sending Images to client', images)
-        TogetherJS.send({type: 'setImages', images})
+        const onlyPreview = images.map(image => {
+          if (!image.previewUrl) {
+            return image
+          }
+          const clone = Object.assign({}, image)
+          delete clone.url
+          return clone
+        })
+        TogetherJS.send({type: 'setImages', images: onlyPreview})
       })
     }
 
