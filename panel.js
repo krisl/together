@@ -12,8 +12,8 @@ if (!Object.entries) {
 
 const getPreviewUrl = url => proxyUrl(url, rootUrl => `${rootUrl}&w=250`)
 
-const mapImages = (images) => images.map(
-  img => `<img class="lozad imgpreview" onClick="imageClicked(this)" data-src="${img.previewUrl || img.url}">`
+const mapImages = (peerId, images) => images.map(
+  img => `<img class="lozad imgpreview" onClick="imageClicked(this)" data-src="${img.previewUrl || img.url}" data-peerid="${peerId}" data-name="${img.name}">`
 )
 
 function previewAllImages () {
@@ -29,10 +29,10 @@ function previewAllImages () {
   getImagesPromise().then(
     (images) => {
       console.log(images)
-      html = mapImages(images)
+      html = mapImages('', images)
       Object.entries(peerImages).forEach(([peerId, {name, images}]) => {
         html.push(`<div><h3 style='display: inline-block;'>${name}</h3><span> ${peerId}</span></div>`)
-        html = html.concat(mapImages(images))
+        html = html.concat(mapImages(peerId, images))
       })
       previewContainer.innerHTML = html.join("\n")
       Lozad.observe()
