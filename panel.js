@@ -10,8 +10,12 @@ if (!Object.entries) {
   };
 }
 
+const getPreviewUrl = url => url.startsWith('http')
+  ? `https://images.weserv.nl/?url=${url}&w=250`
+  : url // data urls
+
 const mapImages = (images) => images.map(
-  img => `<img class="lozad imgpreview" onClick="imageClicked(this)" data-src="${img.url}">`
+  img => `<img class="lozad imgpreview" onClick="imageClicked(this)" data-src="${getPreviewUrl(img.url)}">`
 )
 
 function previewAllImages () {
