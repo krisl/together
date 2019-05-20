@@ -166,9 +166,13 @@
       // db.images.put({name: 'Плата за мир', url:'http://bidstrup.ru/images/comicses/0920.gif'})
       // db.images.put({name: 'car', url:'https://i.pinimg.com/474x/ed/35/fb/ed35fbefa01c7ea3015a0ef7c9201eb8--adult-coloring-coloring-books.jpg'})
 
+      const proxyUrl = (url, cb = (id) => id) => url.startsWith('http')
+				? cb(`https://images.weserv.nl/?url=${url}`)
+				: url
+      
       function setImageUrl (url, surpress) {
         const imageInput = document.getElementById("url");
-        imageInput.value = url;
+        imageInput.value = proxyUrl(url);
         if (!surpress)
           TogetherJS.send({type: 'setImageUrl', url})
       }

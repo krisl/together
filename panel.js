@@ -10,9 +10,7 @@ if (!Object.entries) {
   };
 }
 
-const getPreviewUrl = url => url.startsWith('http')
-  ? `https://images.weserv.nl/?url=${url}&w=250`
-  : url // data urls
+const getPreviewUrl = url => proxyUrl(url, rootUrl => `${rootUrl}&w=250`)
 
 const mapImages = (images) => images.map(
   img => `<img class="lozad imgpreview" onClick="imageClicked(this)" data-src="${img.url}">`
