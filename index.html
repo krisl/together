@@ -186,6 +186,7 @@
           TogetherJS.send({type: 'setImageUrl', url})
       }
 
+      /* console functions */
       function load (name) {
         db.images.get(name).then(
           image => {
@@ -232,6 +233,8 @@
           }
         )
       }
+      /* end console functions */
+
       function imageClicked (el) {
         console.log({el})
         if (el) setImageUrl(el.dataset.src)
