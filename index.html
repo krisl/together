@@ -182,6 +182,7 @@
         const imageInput = document.getElementById("url");
         imageInput.dataset.src = url
         imageInput.value = proxyUrl(url);
+        loadMainImage()
         if (!surpress)
           TogetherJS.send({type: 'setImageUrl', url})
       }
@@ -238,7 +239,6 @@
       function imageClicked (el) {
         console.log({el})
         if (el) setImageUrl(el.dataset.src)
-        loadMainImage()
         return false
       }
 
