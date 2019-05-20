@@ -151,6 +151,7 @@
         if (imageInput.value) {
           const image = document.getElementById("image");
           image.onload = () => TogetherJS.send({type: 'imageLoaded', url: imageInput.value});
+          image.dataset.src =  imageInput.dataset.src
           image.src = imageInput.value;
         }
       });
@@ -172,6 +173,7 @@
 
       function setImageUrl (url, surpress) {
         const imageInput = document.getElementById("url");
+        imageInput.dataset.src = url
         imageInput.value = proxyUrl(url);
         if (!surpress)
           TogetherJS.send({type: 'setImageUrl', url})
@@ -230,7 +232,7 @@
       }
 
       function loadStory () {
-        const src = document.getElementById("image").src;
+        const src = document.getElementById("image").dataset.src;
         const storyContainer = document.getElementById('story')
         getImagesPromise().then(
           (images) => {
