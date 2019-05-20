@@ -145,8 +145,8 @@
 
         input.value = null
       }
-      // add handler to img button
-      document.getElementById("b").addEventListener("click", e => {
+
+      function loadMainImage () {
         const imageInput = document.getElementById("url");
         if (imageInput.value) {
           const image = document.getElementById("image");
@@ -154,6 +154,10 @@
           image.dataset.src =  imageInput.dataset.src
           image.src = imageInput.value;
         }
+      }
+      // add handler to img button
+      document.getElementById("b").addEventListener("click", e => {
+        loadMainImage()
       });
 
 
@@ -228,6 +232,7 @@
       function imageClicked (el) {
         console.log({el})
         if (el) setImageUrl(el.dataset.src)
+        loadMainImage()
         return false
       }
 
