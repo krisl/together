@@ -148,8 +148,9 @@
 
       function loadMainImage () {
         const imageInput = document.getElementById("url");
+        const image = document.getElementById("image");
+        image.src = ""
         if (imageInput.value) {
-          const image = document.getElementById("image");
           image.onload = () => TogetherJS.send({type: 'imageLoaded', url: imageInput.value});
           image.dataset.src =  imageInput.dataset.src
           image.src = imageInput.value;
