@@ -15,12 +15,12 @@
   border: 1px solid black;
 }
 
-    @media screen and (max-width: 600px) {
-      .desktop {
-        visibility: hidden;
-        display: none;
+      @media screen and (max-width: 600px) {
+        .desktop {
+          visibility: hidden;
+          display: none;
+        }
       }
-    }
   </style>
   <link rel="stylesheet" href="css/style.css">
   <script>
@@ -47,7 +47,7 @@
         const peerInfo = peerImages[msg.clientId]
         peerImages[msg.clientId] = { images: peerInfo.images, name: msg.name }
       })
-    
+
       TogetherJS.hub.on('setImages', msg => {
         peerImages[msg.clientId] = { images: msg.images, name: msg.peer.name }
         console.log('setImages', {msg})
@@ -167,9 +167,9 @@
       // db.images.put({name: 'car', url:'https://i.pinimg.com/474x/ed/35/fb/ed35fbefa01c7ea3015a0ef7c9201eb8--adult-coloring-coloring-books.jpg'})
 
       const proxyUrl = (url, cb = (id) => id) => url.startsWith('http')
-				? cb(`https://images.weserv.nl/?url=${url}`)
-				: url
-      
+        ? cb(`https://images.weserv.nl/?url=${url}`)
+        : url
+
       function setImageUrl (url, surpress) {
         const imageInput = document.getElementById("url");
         imageInput.value = proxyUrl(url);
