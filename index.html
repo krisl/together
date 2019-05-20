@@ -187,6 +187,27 @@
           TogetherJS.send({type: 'setImageUrl', url})
       }
 
+      function generatePreviewEncoding (url) {
+        if (!url.startsWith('data:image')) {
+          return Promise.resolve()
+        }
+
+        return new Promise((res, rej) => {
+          const i = new Image()
+          i.onload = function () {
+            const c = document.createElement('canvas')
+            const width = 250;
+            const scaleFactor = width / i.width;
+            c.width = width;
+            c.height = i.height * scaleFactor;
+            c.getContext('2d').drawImage(i, 0, 0, width, i.height * scaleFactor)
+            res(c.toDataURL('image/jpeg', .1))
+          }
+          i.onerror = rej
+          i.src = url
+        })
+      }
+
       /* console functions */
       function load (name) {
         db.images.get(name).then(
@@ -215,7 +236,9 @@
             }
 
             image.url = url
-            return db.images.put(image)
+            generatePreviewEncoding(url)
+              .then(previewUrl => { image.previewUrl = previewUrl })
+              .then(() => db.images.put(image))
           }
         )
       }
