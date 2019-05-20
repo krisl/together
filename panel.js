@@ -15,13 +15,17 @@ const getPreviewUrl = url => url.startsWith('http')
   : url // data urls
 
 const mapImages = (images) => images.map(
-  img => `<img class="lozad imgpreview" onClick="imageClicked(this)" data-src="${getPreviewUrl(img.url)}">`
+  img => `<img class="lozad imgpreview" onClick="imageClicked(this)" data-src="${img.url}">`
 )
 
 function previewAllImages () {
   // TODO can we move this back out somehow?
   // lazy loader
-  const Lozad = lozad()
+  const Lozad = lozad('.lozad', {
+    load: function (el) {
+      el.src = getPreviewUrl(el.getAttribute('data-src'))
+    }
+  })
 
   const previewContainer = document.getElementById('previews')
   getImagesPromise().then(
