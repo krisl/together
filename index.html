@@ -28,6 +28,7 @@
 
     function broadcastAllImages () {
       getOurImagesPromise().then((images) => {
+        images = images.filter(image => (image.url || '').startsWith('http'))
         console.log('Sending Images to client', images)
         TogetherJS.send({type: 'setImages', images})
       })
