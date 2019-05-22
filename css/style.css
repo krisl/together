@@ -3,6 +3,10 @@
   margin-left: 5px;
   margin-right: 5px;
   background: #0194DB;
+  padding: 0 6px 0 6px;
+  border-radius: 4px;
+  color: white;
+  font-family: monospace;
 }
 
 /* -------------------------------- 
