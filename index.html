@@ -161,6 +161,7 @@
       }
       // add handler to img button
       document.getElementById("loadUrl").addEventListener("click", e => {
+        e.preventDefault()
         loadMainImage()
       });
 
