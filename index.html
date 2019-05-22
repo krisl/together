@@ -82,7 +82,7 @@
         <a href="#0" class="js-cd-panel-trigger desktop button-link" data-panel="main">
           Images
         </a>
-        <a href="#1" class="js-cd-panel-trigger desktop button-link" data-panel="story">
+        <a href="#1" class="js-cd-panel-trigger desktop button-link" data-panel="story" id="storybutton" style="visibility: hidden">
           Story
         </a>
       </div>
@@ -149,10 +149,16 @@
         input.value = null
       }
 
+      function setStoryButtonVisibility (visible) {
+        const imageInput = document.getElementById("storybutton")
+        imageInput.setAttribute('style', `visibility: ${visible ? 'visible' : 'hidden'}`)
+      }
+
       function loadMainImage () {
         const imageInput = document.getElementById("url");
         const image = document.getElementById("image");
         image.src = ""
+        loadStories(imageInput.dataset.src).then(setStoryButtonVisibility)
         if (imageInput.value) {
           image.onload = () => TogetherJS.send({type: 'imageLoaded', url: imageInput.value});
           image.dataset.src =  imageInput.dataset.src
