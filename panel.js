@@ -42,6 +42,8 @@ function previewAllImages () {
 
 (function(){
 
+  const storyParagraph = stories => lang => `<p class="${lang}">${stories[lang]}</p>`
+
   // Slide In Panel - by CodyHouse.co
   var panelTriggers = document.getElementsByClassName('js-cd-panel-trigger');
   if( panelTriggers.length > 0 ) {
@@ -56,7 +58,12 @@ function previewAllImages () {
 
           // FIXME only do the operation for the correct container
           previewAllImages()
-          loadStory()
+          const src = document.getElementById("image").dataset.src;
+          loadStories(src).then((stories) => {
+            console.log('stories', stories)
+            html = Object.keys(stories || {}).map(storyParagraph(stories)).join("\n")
+            document.getElementById('story').innerHTML = html
+          })
         });
         //close panel when clicking on 'x' or outside the panel
         panel.addEventListener('click', function(event){

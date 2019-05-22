@@ -244,16 +244,11 @@
         return false
       }
 
-      function loadStory () {
-        const src = document.getElementById("image").dataset.src;
-        const storyContainer = document.getElementById('story')
-        getImagesPromise().then(
+      function loadStories (src) {
+        return getImagesPromise().then(
           (images) => {
             const storyImage = images.find(image => image.url == src) || {}
-            const stories = storyImage.story || {}
-            console.log('stories', stories)
-            html = Object.keys(stories).map(lang => `<p class="${lang}">${stories[lang]}</p>`).join("\n")
-            storyContainer.innerHTML = html
+            return storyImage.story
           }
         )
       }
