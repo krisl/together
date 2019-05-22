@@ -68,24 +68,24 @@
   <script defer src="./panel.js"></script>
   <body>
     <main class="cd-main-content">
-      <button
-        id="start-togetherjs" type="button" class="desktop" 
-                                            onclick="TogetherJS.startTarget=this; TogetherJS(this); return false"
-                                            data-end-togetherjs-html="End TogetherJS">
-        Start TogetherJS
-      </button>
-      <input type="url" name="url" id="url"
-                                   placeholder="https://site.com/path/to/image.jpg"
-                                   required>
-      <button id="b">Load image</button>
-      <a href="#0" class="js-cd-panel-trigger desktop" data-panel="main">
-        Images
-      </a>
-      <a href="#1" class="js-cd-panel-trigger desktop" data-panel="story">
-        Story
-      </a>
-      <br>
-
+      <div calss="tools">
+        <button
+          id="start-togetherjs" type="button" class="desktop" 
+                                              onclick="TogetherJS.startTarget=this; TogetherJS(this); return false"
+                                              data-end-togetherjs-html="End TogetherJS">
+          Start TogetherJS
+        </button>
+        <input type="url" name="url" id="url"
+                                     placeholder="https://site.com/path/to/image.jpg"
+                                     required>
+        <button id="b">Load image</button>
+        <a href="#0" class="js-cd-panel-trigger desktop" data-panel="main">
+          Images
+        </a>
+        <a href="#1" class="js-cd-panel-trigger desktop" data-panel="story">
+          Story
+        </a>
+      </div>
       <img src="" id="image">
     </main>
     <div class="cd-panel cd-panel--from-right js-cd-panel-main">
