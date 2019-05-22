@@ -254,7 +254,13 @@
         return getImagesPromise().then(
           (images) => {
             const storyImage = images.find(image => image.url == src) || {}
-            return storyImage.story
+            if (storyImage.story)
+              return storyImage.story
+
+            const peerId = Object.keys(peerImages).find(peerId => peerImages[peerId].images.find(image => image.url === src))
+            if (peerId) {
+              return peerImages[peerId].images.find(image => image.url === src).story
+            }
           }
         )
       }
