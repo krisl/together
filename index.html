@@ -21,41 +21,9 @@
     display: none;
   }
 }
-
-main {
-  display: none;
-}
-
-.visible {
-  display: initial;
-}
-
   </style>
   <link rel="stylesheet" href="css/style.css">
   <script>
-    function setVisibility () {
-      const elements = getElements()
-      if (TogetherJS.running) {
-        elements.getStarted.setAttribute('style', 'display: none')
-        elements.main.setAttribute('style', 'display: initial')
-      } else {
-        elements.getStarted.setAttribute('style', 'display: initial')
-        elements.main.setAttribute('style', 'display: none')
-      }
-    }
-
-    function getElements () {
-      return {
-        getStarted: document.getElementById("getstarted"),
-        main: document.getElementById("main")
-      }
-    }
-
-    window.onload = function () {
-      console.log('loaded', TogetherJS)
-      setVisibility()
-    }
-
     const peerImages = {}
 
     function broadcastAllImages () {
@@ -71,11 +39,7 @@ main {
     var TogetherJSConfig_cloneClicks = "#loadUrl" // clone clicks on load image button only
     var TogetherJSConfig_suppressJoinConfirmation = true
     var TogetherJSConfig_suppressInvite = true
-    var TogetherJSConfig_on_close = function () {
-      setVisibility()
-    }
     var TogetherJSConfig_on_ready = function () {
-      setVisibility()
       var session = TogetherJS.require("session");
       console.log({session});
       broadcastAllImages()
@@ -103,16 +67,14 @@ main {
   <script defer src="https://cdn.jsdelivr.net/npm/lozad"></script>
   <script defer src="./panel.js"></script>
   <body>
-    <main id="getstarted">
-      <button
-        id="start-togetherjs" type="button" class="desktop" 
-                                            onclick="TogetherJS.startTarget=this; TogetherJS(this); return false"
-                                            data-end-togetherjs-html="End TogetherJS">
-        Start new session
-      </button>
-    </main>
-    <main id="main" class="cd-main-content">
+    <main class="cd-main-content">
       <div calss="tools">
+        <button
+          id="start-togetherjs" type="button" class="desktop" 
+                                              onclick="TogetherJS.startTarget=this; TogetherJS(this); return false"
+                                              data-end-togetherjs-html="End TogetherJS">
+          Start TogetherJS
+        </button>
         <input type="url" name="url" id="url"
                                      placeholder="https://site.com/path/to/image.jpg"
                                      required>
