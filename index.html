@@ -156,7 +156,7 @@
         loadStories(imageInput.dataset.src).then(setStoryButtonVisibility)
         if (imageInput.value) {
           image.onload = () => TogetherJS.send({type: 'imageLoaded', url: imageInput.value});
-          image.dataset.src =  imageInput.dataset.src
+          image.dataset.src =  imageInput.dataset.src // story determination comes from here
           image.src = imageInput.value;
         }
       }
