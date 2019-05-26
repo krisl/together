@@ -157,7 +157,7 @@
         if (imageInput.value) {
           image.onload = () => TogetherJS.send({type: 'imageLoaded', url: imageInput.value});
           image.dataset.src =  imageInput.dataset.src // story determination comes from here
-          image.src = imageInput.value;
+          image.src = proxyUrl(imageInput.value);
         }
       }
       // add handler to img button
@@ -183,8 +183,8 @@
 
       function setImageUrl (url, surpress) {
         const imageInput = document.getElementById("url");
-        imageInput.dataset.src = url
-        imageInput.value = proxyUrl(url);
+        imageInput.dataset.src = url // no need for this is web preserve src
+        imageInput.value = url;
         loadMainImage()
         if (!surpress)
           TogetherJS.send({type: 'setImageUrl', url})
