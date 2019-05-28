@@ -70,6 +70,7 @@
   <body>
     <main class="cd-main-content">
       <div calss="tools">
+        <input checked type="checkbox" id="proxy" title="proxy" class="ignore-clicks">
         <input type="url" name="url" id="url"
                                      placeholder="https://site.com/path/to/image.jpg"
                                      required>
@@ -177,7 +178,9 @@
       // db.images.put({name: 'Плата за мир', url:'http://bidstrup.ru/images/comicses/0920.gif'})
       // db.images.put({name: 'car', url:'https://i.pinimg.com/474x/ed/35/fb/ed35fbefa01c7ea3015a0ef7c9201eb8--adult-coloring-coloring-books.jpg'})
 
-      const proxyUrl = (url, cb = (id) => id) => url.startsWith('http')
+      const useProxy = () => document.getElementById("proxy").checked
+
+      const proxyUrl = (url, cb = (id) => id) => (useProxy() && url.startsWith('http'))
         ? cb(`https://images.weserv.nl/?url=${encodeURIComponent(url.replace('https://', 'ssl:').replace('http://', ''))}`)
         : url
 
