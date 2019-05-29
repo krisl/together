@@ -13,7 +13,7 @@ if (!Object.entries) {
 const getPreviewUrl = url => proxyUrl(url, rootUrl => `${rootUrl}&w=250`)
 
 const mapImages = (images) => images.map(
-  img => `<img class="lozad imgpreview" onClick="imageClicked(this)" data-src="${img.url}">`
+  img => `<img title="${img.name}" class="lozad imgpreview" onClick="imageClicked(this)" data-src="${img.url}">`
 )
 
 function previewAllImages () {
