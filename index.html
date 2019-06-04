@@ -168,6 +168,7 @@
         loadStories(imageInput.dataset.src).then(setStoryButtonVisibility)
         if (imageInput.value) {
           image.onload = () => TogetherJS.send({type: 'imageLoaded', url: imageInput.value});
+          // FIXME this is bogus if the url is manually entered
           image.dataset.src =  imageInput.dataset.src // story determination comes from here
           image.src = proxyUrl(imageInput.value);
         }
