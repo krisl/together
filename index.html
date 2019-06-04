@@ -122,6 +122,8 @@
     </div> 
     <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
     <script>
+      const timeStamp = (e = new Event('e')) => e.timeStamp.toString()
+
       function addFiles() {
         const input = document.querySelector('input[type=file]')
         const files = input.files
@@ -132,7 +134,7 @@
             const reader = new FileReader();
 
             reader.onload = function (e) {
-              const name = e.timeStamp.toString()
+              const name = timeStamp(e)
               const src = this.result;
               console.log({name, src})
               add(name, src).then(
