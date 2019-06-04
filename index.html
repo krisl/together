@@ -161,6 +161,20 @@
         imageInput.setAttribute('style', `visibility: ${visible ? 'visible' : 'hidden'}`)
       }
 
+      function recordHistory (url) {
+        return getImagesPromise().then(
+          (images) => {
+            const existingImage = images.find(image => image.url == url)
+            if (!existingImage) {
+              add(timeStamp(), url)
+              console.log('added new history item', url)
+            } else {
+              console.log('already exists', url)
+            }
+          }
+        )
+      }
+
       function loadMainImage () {
         const imageInput = document.getElementById("url");
         const image = document.getElementById("image");
@@ -171,6 +185,7 @@
           // FIXME this is bogus if the url is manually entered
           image.dataset.src =  imageInput.dataset.src // story determination comes from here
           image.src = proxyUrl(imageInput.value);
+          recordHistory(imageInput.value)
         }
       }
       // add handler to img button
