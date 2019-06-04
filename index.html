@@ -62,6 +62,10 @@
         broadcastAllImages()
       })
 
+      const shareButton = document.getElementById('togetherjs-share-button')
+      shareButton.dataset.intro = "Click here to get link to share"
+      shareButton.dataset.position = "left"
+      $('body').chardinJs('start')
     }
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -75,10 +79,12 @@
       <div calss="tools">
         <input checked type="checkbox" id="proxy" title="proxy" class="ignore-clicks">
         <input type="url" name="url" id="url"
+                                     data-intro="Enter URL of image here.  Try searching Pinterest or other image sites for great content"
+                                     data-position="bottom"
                                      placeholder="https://site.com/path/to/image.jpg"
                                      required>
-        <a href="#2" class="button-link" id="loadUrl">Load</a>
-        <a href="#0" class="js-cd-panel-trigger desktop button-link" data-panel="main">
+        <a href="#2" class="button-link" id="loadUrl" data-intro="Load image" data-position="bottom">Load</a>
+        <a href="#0" class="js-cd-panel-trigger desktop button-link" data-panel="main" data-intro="Show image library" data-position="bottom">
           Images
         </a>
         <a href="#1" class="js-cd-panel-trigger desktop button-link" data-panel="story" id="storybutton" style="visibility: hidden">
