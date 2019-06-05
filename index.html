@@ -191,6 +191,7 @@
       }
       // add handler to img button
       document.getElementById("loadUrl").addEventListener("click", e => {
+        $('body').chardinJs('stop')
         e.preventDefault()
         loadMainImage()
       });
