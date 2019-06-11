@@ -58,7 +58,7 @@ function previewAllImages () {
 
           // FIXME only do the operation for the correct container
           previewAllImages()
-          const src = document.getElementById("image").dataset.src;
+          const src = document.getElementById("url").dataset.src;
           loadStories(src).then((stories) => {
             console.log('stories', stories)
             html = Object.keys(stories || {}).map(storyParagraph(stories)).join("\n")
