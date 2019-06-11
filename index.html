@@ -193,7 +193,7 @@
       }
 
       function getUrls (url) {
-        return [url]
+        return Promise.resolve([url])
       }
 
       function loadMainImage () {
@@ -202,7 +202,7 @@
         images.textContent = "" // remove existing images
         loadStories(imageInput.dataset.src).then(setStoryButtonVisibility)
 
-        for (const value of getUrls(imageInput.value)) { 
+        getUrls(imageInput.value).then(values => { for (const value of values) { 
           const image = makeImageNode()
           image.onload = () => TogetherJS.send({type: 'imageLoaded', url: imageInput.value});
           // FIXME this is bogus if the url is manually entered
@@ -210,7 +210,7 @@
           image.src = proxyUrl(value);
           recordHistory(value)
           images.appendChild(image)
-        }
+        }})
       }
       // add handler to img button
       document.getElementById("loadUrl").addEventListener("click", e => {
