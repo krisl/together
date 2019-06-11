@@ -98,7 +98,10 @@
           Story
         </a>
       </div>
-      <img src="" id="image">
+      <template id="image-template">
+        <img src="" data-src="">
+      </template>
+      <div id="images" />
     </main>
     <div class="ignore-clicks cd-panel cd-panel--from-right js-cd-panel-main">
       <header class="cd-panel__header">
@@ -182,17 +185,31 @@
         )
       }
 
+      function makeImageNode () {
+        const template = document.getElementById('image-template')
+        const images = document.getElementById("images")
+        const clone = document.importNode(template.content, true)
+        return clone.querySelector('img')
+      }
+
+      function getUrls (url) {
+        return [url]
+      }
+
       function loadMainImage () {
         const imageInput = document.getElementById("url");
-        const image = document.getElementById("image");
-        image.src = ""
+        const images = document.getElementById("images");
+        images.textContent = "" // remove existing images
         loadStories(imageInput.dataset.src).then(setStoryButtonVisibility)
-        if (imageInput.value) {
+
+        for (const value of getUrls(imageInput.value)) { 
+          const image = makeImageNode()
           image.onload = () => TogetherJS.send({type: 'imageLoaded', url: imageInput.value});
           // FIXME this is bogus if the url is manually entered
           image.dataset.src =  imageInput.dataset.src // story determination comes from here
-          image.src = proxyUrl(imageInput.value);
-          recordHistory(imageInput.value)
+          image.src = proxyUrl(value);
+          recordHistory(value)
+          images.appendChild(image)
         }
       }
       // add handler to img button
