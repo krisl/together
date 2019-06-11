@@ -221,9 +221,12 @@
           // FIXME this is bogus if the url is manually entered
           image.dataset.src =  imageInput.dataset.src // story determination comes from here
           image.src = proxyUrl(value);
-          recordHistory(imageInput.value)
           images.appendChild(image)
         }})
+
+        if (imageInput.value) {
+          recordHistory(imageInput.value)
+        }
       }
       // add handler to img button
       document.getElementById("loadUrl").addEventListener("click", e => {
