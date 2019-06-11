@@ -221,7 +221,7 @@
           // FIXME this is bogus if the url is manually entered
           image.dataset.src =  imageInput.dataset.src // story determination comes from here
           image.src = proxyUrl(value);
-          recordHistory(value)
+          recordHistory(imageInput.value)
           images.appendChild(image)
         }})
       }
