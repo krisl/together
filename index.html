@@ -192,7 +192,20 @@
         return clone.querySelector('img')
       }
 
+      function getImgurAlbum (url) {
+        const prefix = 'https://imgur.com/a/'
+        if (url.startsWith(prefix))
+          return url.substr(prefix.length)
+      }
+
       function getUrls (url) {
+        const imgurAlbum = getImgurAlbum(url)
+        if (imgurAlbum) {
+          const headers = new Headers({Authorization: 'Client-ID fbf77ff49c42c8a'})
+          return fetch(new Request(`https://api.imgur.com/3/album/${imgurAlbum}`, { headers }))
+            .then(x => x.json())
+            .then(resp => resp.data.images.map(image => image.link))
+        }
         return Promise.resolve([url])
       }
 
