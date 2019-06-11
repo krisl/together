@@ -10,7 +10,7 @@ if (!Object.entries) {
   };
 }
 
-const getPreviewUrl = url => proxyUrl(url, rootUrl => `${rootUrl}&w=250`)
+const getPreviewUrl = url => Promise.resolve(proxyUrl(url, rootUrl => `${rootUrl}&w=250`))
 
 const mapImages = (images) => images.map(
   img => `<img title="${img.name}" class="lozad imgpreview" onClick="imageClicked(this)" data-src="${img.url}">`
@@ -21,7 +21,7 @@ function previewAllImages () {
   // lazy loader
   const Lozad = lozad('.lozad', {
     load: function (el) {
-      el.src = getPreviewUrl(el.getAttribute('data-src'))
+      getPreviewUrl(el.getAttribute('data-src')).then(src => { el.src = src })
     }
   })
 
