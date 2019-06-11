@@ -10,7 +10,7 @@ if (!Object.entries) {
   };
 }
 
-const getPreviewUrl = url => Promise.resolve(proxyUrl(url, rootUrl => `${rootUrl}&w=250`))
+const getPreviewUrl = url => getUrls(url).then(urls => proxyUrl(urls[0], rootUrl => `${rootUrl}&w=250`))
 
 const mapImages = (images) => images.map(
   img => `<img title="${img.name}" class="lozad imgpreview" onClick="imageClicked(this)" data-src="${img.url}">`
