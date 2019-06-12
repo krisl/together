@@ -250,6 +250,8 @@ picture.story:after {
       });
 
       function loadBidstrup () {
+        // contents of the bidstrup.json made by
+        // JSON.stringify($$('table table table a').map(x => (console.log(x), {name: x.innerHTML, url: x.href.replace('content', 'images/comicses').replace('html', 'gif')})))
         fetch('/bidstrup.json')
           .then(resp => resp.json())
           .then(images => {
