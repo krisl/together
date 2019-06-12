@@ -108,6 +108,7 @@
         <h1>
           Images
           <input style='margin-left:30px;' id="browse" type="file" onchange="addFiles()" multiple>
+          <a href="#3" class="button-link" onclick="loadBidstrup()" style="font-size: initial">Bidstrup</a>
         </h1>
         <a href="#0" class="cd-panel__close js-cd-close">Close</a>
       </header>
@@ -235,6 +236,14 @@
         loadMainImage()
       });
 
+      function loadBidstrup () {
+        fetch('/bidstrup.json')
+          .then(resp => resp.json())
+          .then(images => {
+            peerImages['bidstrup'] = { name: 'bidstrup', images }
+            previewAllImages()
+          })
+      }
 
       // initialise dexie
       var db = new Dexie("images");
