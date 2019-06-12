@@ -26,6 +26,14 @@ picture {
   position: relative;
 }
 
+picture.story:after {
+  content: "";
+  border-top: 25px solid red;
+  border-left: 25px solid transparent;
+  position: absolute;
+  right: 0;
+}
+
 @media screen and (max-width: 600px) {
   .desktop {
     visibility: hidden;

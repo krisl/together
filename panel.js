@@ -12,8 +12,10 @@ if (!Object.entries) {
 
 const getPreviewUrl = url => getUrls(url).then(urls => proxyUrl(urls[0], rootUrl => `${rootUrl}&w=250`))
 
+const hasStory = image => image.story
+
 const mapImages = (images) => images.map(
-  img => `<picture><img title="${img.name}" class="lozad imgpreview" onClick="imageClicked(this)" data-src="${img.url}"></picture>`
+  img => `<picture class="${hasStory(img) ? 'story' : ''}"><img title="${img.name}" class="lozad imgpreview" onClick="imageClicked(this)" data-src="${img.url}"></picture>`
 )
 
 function previewAllImages () {
